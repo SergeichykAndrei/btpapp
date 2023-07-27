@@ -1,0 +1,48 @@
+---
+applications:
+  # Application
+  - name: reporting
+    instances: 1
+    memory: 1G
+    host: reporting-1.0.0.0.0
+    path: target/btpapp-0.0.1-SNAPSHOT.jar
+    buildpack: sap_java_buildpack
+    env:
+      JBP_CONFIG_COMPONENTS: "jres: ['com.sap.xs.java.buildpack.jre.SAPMachineJRE']"
+      SPRING_PROFILES_ACTIVE: cloud
+    services:
+      - reporting_db
+      - reporting_logging_service
+
+  #applications:
+  #  # Application
+  #  - name: reporting
+  #    instances: 1
+  #    memory: ((MEMORY_PRODUCT_LIST_APP))
+  #    routes:
+  #      - route: product-list-((ID)).((LANDSCAPE_APPS_DOMAIN))
+  #    path: ((PATH_PRODUCT_LIST_APP))
+  #    buildpacks:
+  #      - ((BUILDPACK_PRODUCT_LIST_APP))
+  #    timeout: 180
+  #    services:
+  #      - xsuaa
+
+# Application Router
+#  - name: approuter
+#    routes:
+#      - route: approuter-((ID)).((LANDSCAPE_APPS_DOMAIN))
+#    path: approuter
+#    buildpacks:
+#      - nodejs_buildpack
+#    memory: 128M
+#    services:
+#      - xsuaa
+#    env:
+#      destinations: >
+#        [
+#          {"name":"products-destination",
+#           "url":"https://reporting-((ID)).((LANDSCAPE_APPS_DOMAIN))",
+#           "forwardAuthToken": true}
+#        ]
+...

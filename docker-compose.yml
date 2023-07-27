@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+
+  postgres:
+    image: 'postgres:12'
+    container_name: postgres
+    ports:
+      - '5432:5432'
+    #      volumes:
+    #        - /Users/rajeshp/docker/postgres/docker-pg-vol/data:/var/lib/postgresql/data
+    #        - /Users/rajeshp/docker/postgres/init/initData.sql:/docker-entrypoint-initdb.d/initData.sql
+    environment:
+      POSTGRES_DB: reportingdb
+      POSTGRES_PASSWORD: pass
+#      POSTGRES_USER: postgres
