@@ -4,6 +4,7 @@ import com.andreis.pet.project.btpapp.dto.ProjectDto;
 import com.andreis.pet.project.btpapp.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +23,7 @@ public class ProjectController {
     private final EmployeeService employeeService;
 
     @GetMapping
-//    @PreAuthorize("hasAuthority('read')")
+//    @PreAuthorize("hasAuthority('Display')")
     public List<ProjectDto> getProjects(@RequestParam("employeeId") @Positive Long employeeId) {
         log.info("Get Projects method is invoked!!!");
         return employeeService.getEmployee(employeeId).getProjects().stream()

@@ -23,16 +23,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // session is created by approuter
+                // session is created by approuter
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                // demand specific scopes depending on intended request
                 .authorizeRequests()
+
                 .antMatchers("/**").authenticated()
-//                .antMatchers("/**").hasAuthority("Display")
-                .anyRequest().denyAll()
+                //                .antMatchers("/**").hasAuthority("Display")
+                .anyRequest().denyAll() // deny anything not configured above
                 .and()
-                .oauth2ResourceServer()
-                .jwt()
+                .oauth2ResourceServer().jwt()
                 .jwtAuthenticationConverter(getJwtAuthoritiesConverter());
+
     }
 
     Converter<Jwt, AbstractAuthenticationToken> getJwtAuthoritiesConverter() {
