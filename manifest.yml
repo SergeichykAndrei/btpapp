@@ -20,18 +20,16 @@ applications:
   - name: approuter
     random-route: true
     path: approuter
-#    buildpacks:
-#      - nodejs_buildpack
+    buildpack: nodejs_buildpack
     memory: 1024M
-    services:
-      - reporting_xsuaa
     env:
       destinations: >
         [
           {
-            "name":"reporting",
-            "url":"https://reporting.cfapps.us10-001.hana.ondemand.com/",
+            "name":"reporting", 
+            "url":"https://reporting-interested-serval-sr.cfapps.us10-001.hana.ondemand.com/",
             "forwardAuthToken": true
           }
         ]
-...
+    services:
+      - reporting_xsuaa
