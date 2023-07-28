@@ -30,7 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 .antMatchers("/**").authenticated()
-                //                .antMatchers("/**").hasAuthority("Display")
+//                .antMatchers("/**").hasAuthority("Display")
                 .anyRequest().denyAll() // deny anything not configured above
                 .and()
                 .oauth2ResourceServer().jwt()
