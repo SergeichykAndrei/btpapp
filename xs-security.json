@@ -1,0 +1,25 @@
+{
+  "xsappname": "reporting",
+  "tenant-mode": "dedicated",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Display",
+      "description": "Display content"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "Viewer",
+      "description": "View content",
+      "scope-references": [
+        "$XSAPPNAME.Display"
+      ]
+    }
+  ],
+
+  "oauth2-configuration": {
+    "redirect-uris": [
+      "*"
+    ]
+  }
+}
