@@ -23,7 +23,7 @@ public class ProjectController {
     private final EmployeeService employeeService;
 
     @GetMapping
-//    @PreAuthorize("hasAuthority('Display')")
+    @PreAuthorize("hasAuthority('Display')")
     public List<ProjectDto> getProjects(@RequestParam("employeeId") @Positive Long employeeId) {
         log.info("Get Projects method is invoked!!!");
         return employeeService.getEmployee(employeeId).getProjects().stream()

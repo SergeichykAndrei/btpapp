@@ -3,7 +3,7 @@ applications:
   # Application
   - name: reporting
     instances: 1
-    memory: 1G
+    memory: 800M
     random-route: true
     host: reporting-1.0.0.0.0
     path: target/btpapp-0.0.1-SNAPSHOT.jar
@@ -11,10 +11,13 @@ applications:
     env:
       JBP_CONFIG_COMPONENTS: "jres: ['com.sap.xs.java.buildpack.jre.SAPMachineJRE']"
       SPRING_PROFILES_ACTIVE: cloud
+#      SAP_JWT_TRUST_ACL: '[{"clientid" : "*", "identityzone" : "*"}]'
+      JBP_CONFIG_DEBUG: '{enabled: true}'
     services:
       - reporting_db
       - reporting_logging_service
       - reporting_xsuaa
+      - reporting_registry
 
   # Application Router
   - name: approuter
@@ -22,15 +25,17 @@ applications:
     path: approuter
 #    buildpacks:
 #      - nodejs_buildpack
-    memory: 1024M
+    memory: 500M
     services:
       - reporting_xsuaa
     env:
+      TENANT_HOST_PATTERN: '^(.*)-approuter-surprised-pangolin-xv.cfapps.us10-001.hana.ondemand.com'
+#      TENANT_HOST_PATTERN: '^(.*)-cfapps.us10-001.hana.ondemand.com'
       destinations: >
         [
           {
             "name":"reporting",
-            "url":"https://reporting.cfapps.us10-001.hana.ondemand.com/",
+            "url":"https://reporting-hilarious-llama-ox.cfapps.us10-001.hana.ondemand.com",
             "forwardAuthToken": true
           }
         ]

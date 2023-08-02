@@ -1,0 +1,9 @@
+{
+  "xsappname":"reporting",
+  "appUrls": {
+    "onSubscription" : "https://reporting-hilarious-llama-ox.cfapps.us10-001.hana.ondemand.com/api/v1/callback/tenant/{tenantId}"
+  },
+  "displayName" : "Reporting MTA",
+  "description" : "Reporting MTA sample application",
+  "category" : "Custom SaaS Applications"
+}
