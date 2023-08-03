@@ -29,7 +29,8 @@ public class TenantProvisioningController {
     public ResponseEntity<String> subscribeTenant(@PathVariable(value = "tenantId") String tenantId) throws SQLException, LiquibaseException {
         log.info("Tenant callback service was called with method PUT for tenant {}.", tenantId);
         tenantProvisioningService.subscribeTenant(tenantId);
-        String link = "https://" + tenantId + "-approuter-surprised-pangolin-xv." + "cfapps.eu10.hana.ondemand.com/products";
+        String link = "https://" + tenantId + "-approuter-xv." + "cfapps.us10-001.hana.ondemand.com";
+//        String link = "https://" + tenantId + "-approuter-surprised-pangolin-xv." + "cfapps.eu10.hana.ondemand.com/products";
 
         return ResponseEntity.ok(link);
     }
@@ -39,7 +40,8 @@ public class TenantProvisioningController {
     public ResponseEntity<String> unsubscribeTenant(@PathVariable(value = "tenantId") String tenantId) throws SQLException {
         log.info("Tenant callback service was called with method DELETE for tenant {}.", tenantId);
         tenantProvisioningService.unsubscribeTenant(tenantId);
-        String link = "https://" + tenantId + "-approuter-surprised-pangolin-xv." + "cfapps.eu10.hana.ondemand.com/products";
+        String link = "https://" + tenantId + "-approuter-xv." + "cfapps.us10-001.hana.ondemand.com";
+//        String link = "https://" + tenantId + "-approuter-surprised-pangolin-xv." + "cfapps.eu10.hana.ondemand.com/products";
 
         return ResponseEntity.ok(link);
     }
