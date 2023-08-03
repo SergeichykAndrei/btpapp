@@ -46,7 +46,7 @@ public class TenantProvisioningService {
                 defaultSchemaName = database.getDefaultSchemaName();
                 database.setDefaultSchemaName(schemaName);
 
-                log.info("SCHEMA NAME!!!!! " + schemaName);
+                log.info("TenantProvisioningService: SCHEMA NAME!!!!! " + schemaName);
                 statement.execute(String.format("SET search_path TO %s", schemaName));
 
                 connection.close();
@@ -61,7 +61,7 @@ public class TenantProvisioningService {
             }
 
         } catch (Exception e) {
-            log.error("Tenant subscription failed for {}.", tenantId, e);
+            log.error("TenantProvisioningService: Tenant subscription failed for {}.", tenantId, e);
             throw e;
         }
     }

@@ -58,6 +58,7 @@ To deploy the app in the Cloud Foundry environment, follow these steps:
 ### Add multi-tenancy support
 - [Tutorial: Multi-Tenancy Setup with XSUAA in SAP Business Technology Platform](https://developers.sap.com/tutorials/cp-cf-security-xsuaa-multi-tenant.html)
 - [Deep Dive 6 with SAP Cloud SDK: Extend your Cloud Foundry Application with Tenant-Aware Persistency | SAP Blogs](https://blogs.sap.com/2017/12/20/deep-dive-6-with-sap-s4hana-cloud-sdk-extend-your-cloud-foundry-application-with-tenant-aware-persistency/)
+- https://github.com/SAP-archive/teched2019-cloud-cf-product-list/blob/teched2019/docs/09_secure/Spring.md
 - [A Guide to Multitenancy in Hibernate 5 | Baeldung](https://www.baeldung.com/hibernate-6-multitenancy)
 
 ### Remote debugging on SAP BTP Cloud Foundry
