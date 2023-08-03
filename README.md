@@ -46,6 +46,32 @@ To deploy the app in the Cloud Foundry environment, follow these steps:
 
 - Ensure that the version of the `xsuaa-spring-boot-starter` dependency is higher than 2.9.0.
 
+## Useful CF commands
+
+### xs-uaa
+`cf create-service xsuaa application reporting_xsuaa -c xs-uaa/xs-security.json`
+
+`cf update-service reporting_xsuaa -c xs-uaa/xs-security.json`
+
+### approuter update
+`cf push approuter`
+
+### unbind and delete xs-uaa
+`cf unbind-service reporting reporting_xsuaa`
+
+`cf unbind-service approuter reporting_xsuaa`
+
+`cf delete-service reporting_xsuaa`
+
+### saas-registry
+`cf create-service saas-registry application reporting_saas-registry -c saas-registry/config.json`
+
+`cf update-service reporting_saas-registry -c saas-registry/config.json`
+
+### Create a route for a consumer subaccount
+`cf map-route approuter cfapps.us10-001.hana.ondemand.com --hostname 375de619-40fa-4ddd-84c5-9cbf439ec99e-approuter-zj`
+
+
 ## Other GitHub repos
 - https://github.com/Ragimzade/springboot-crud-app
 
