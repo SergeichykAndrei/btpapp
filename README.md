@@ -76,6 +76,8 @@ Create ssh tunnel to reporting app
 `cf ssh -L 3070:postgres-d359acf8-40f4-4afd-bae0-de649d60b985.cqryblsdrbcs.us-east-1.rds.amazonaws.com:3070 reporting`
 ![img.png](img.png)
 
+See https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-services.html#ssh-tunnel
+
 ## Other GitHub repos
 - https://github.com/Ragimzade/springboot-crud-app
 
