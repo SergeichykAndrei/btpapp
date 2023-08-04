@@ -1,9 +1,12 @@
 {
+  "authenticationMethod": "route",
   "routes": [
     {
-      "source": "^(.*)$",
-      "target": "$1",
-      "destination": "reporting"
+      "source": "/",
+      "target": "/",
+      "destination": "reporting",
+      "authenticationType": "xsuaa"
     }
   ]
 }
+
