@@ -71,6 +71,10 @@ To deploy the app in the Cloud Foundry environment, follow these steps:
 ### Create a route for a consumer subaccount
 `cf map-route approuter cfapps.us10-001.hana.ondemand.com --hostname consumeraccount1-l89x5kkv-dev-reporting`
 
+## Access to Postgres DB
+Create ssh tunnel to reporting app
+`cf ssh -L 3070:postgres-d359acf8-40f4-4afd-bae0-de649d60b985.cqryblsdrbcs.us-east-1.rds.amazonaws.com:3070 reporting`
+![img.png](img.png)
 
 ## Other GitHub repos
 - https://github.com/Ragimzade/springboot-crud-app
