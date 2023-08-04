@@ -69,7 +69,7 @@ To deploy the app in the Cloud Foundry environment, follow these steps:
 `cf update-service reporting_saas-registry -c saas-registry/config.json`
 
 ### Create a route for a consumer subaccount
-`cf map-route approuter cfapps.us10-001.hana.ondemand.com --hostname 375de619-40fa-4ddd-84c5-9cbf439ec99e-approuter-zj`
+`cf map-route approuter cfapps.us10-001.hana.ondemand.com --hostname consumeraccount1-l89x5kkv-dev-reporting`
 
 
 ## Other GitHub repos
