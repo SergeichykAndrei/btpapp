@@ -1,6 +1,7 @@
 package com.andreis.pet.project.btpapp.controller;
 
 import com.andreis.pet.project.btpapp.service.TenantProvisioningService;
+import com.fasterxml.jackson.databind.JsonNode;
 import liquibase.exception.LiquibaseException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,26 +25,26 @@ import java.sql.SQLException;
 @RequestMapping(path = "api/v1/callback/tenant")
 public class TenantProvisioningController {
 
+    private static final String APP_ROUTER_DOMAIN_NAME = "-approuter-xv.cfapps.us10-001.hana.ondemand.com/product";
+    private static final String HTTPS = "https://";
     private final TenantProvisioningService tenantProvisioningService;
 
     @PutMapping("/{tenantId}")
-    public ResponseEntity<String> subscribeTenant(@PathVariable(value = "tenantId") String tenantId) throws SQLException, LiquibaseException {
+    public ResponseEntity<String> subscribeTenant(@RequestBody JsonNode requestBody, @PathVariable(value = "tenantId") String tenantId) throws SQLException, LiquibaseException {
         log.info("Tenant callback service was called with method PUT for tenant {}.", tenantId);
-        tenantProvisioningService.subscribeTenant(tenantId);
-        String link = "https://" + tenantId + "-approuter-xv." + "cfapps.us10-001.hana.ondemand.com";
-//        String link = "https://" + tenantId + "-approuter-surprised-pangolin-xv." + "cfapps.eu10.hana.ondemand.com/products";
+        String subscribedSubdomain = requestBody.get("subscribedSubdomain").asText();
 
-        return ResponseEntity.ok(link);
+        tenantProvisioningService.subscribeTenant(tenantId);
+        String subscriptionLink = HTTPS + subscribedSubdomain + APP_ROUTER_DOMAIN_NAME;
+
+        return ResponseEntity.ok(subscriptionLink);
     }
 
     @DeleteMapping("/{tenantId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<String> unsubscribeTenant(@PathVariable(value = "tenantId") String tenantId) throws SQLException {
+    public ResponseEntity<Void> unsubscribeTenant(@PathVariable(value = "tenantId") String tenantId) throws SQLException {
         log.info("Tenant callback service was called with method DELETE for tenant {}.", tenantId);
         tenantProvisioningService.unsubscribeTenant(tenantId);
-        String link = "https://" + tenantId + "-approuter-xv." + "cfapps.us10-001.hana.ondemand.com";
-//        String link = "https://" + tenantId + "-approuter-surprised-pangolin-xv." + "cfapps.eu10.hana.ondemand.com/products";
-
-        return ResponseEntity.ok(link);
+        return ResponseEntity.ok().build();
     }
 }

@@ -26,9 +26,9 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class TenantProvisioningService {
     public static final String LIQUIBASE_PATH = "db/changelog/db.changelog-master.yaml";
-    private final DataSource dataSource;
-
     private static final Pattern TENANT_PATTERN = Pattern.compile("[-\\w]+");
+
+    private final DataSource dataSource;
 
 
     public void subscribeTenant(final String tenantId) throws SQLException, LiquibaseException {
@@ -38,31 +38,50 @@ public class TenantProvisioningService {
             String schemaName = TenantUtil.createSchemaName(tenantId);
 
             Connection connection = dataSource.getConnection();
-            Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
+//            Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
             try (Statement statement = connection.createStatement()) {
                 statement.execute(String.format("CREATE SCHEMA IF NOT EXISTS \"%s\"", schemaName));
-                connection.commit();
-
-                defaultSchemaName = database.getDefaultSchemaName();
-                database.setDefaultSchemaName(schemaName);
-
-                log.info("SCHEMA NAME!!!!! " + schemaName);
-                statement.execute(String.format("SET search_path TO %s", schemaName));
-
+                log.info("SCHEMA with name: {} was created", schemaName);
                 connection.close();
-                connection = dataSource.getConnection();
-                connection.setSchema(schemaName);
-                Database database2 = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
 
-                Liquibase liquibase = new Liquibase(LIQUIBASE_PATH, new ClassLoaderResourceAccessor(), database2);
 
-                liquibase.update(new Contexts(), new LabelExpression());
-                database.setDefaultSchemaName(defaultSchemaName);
+//                defaultSchemaName = database.getDefaultSchemaName();
+//                database.setDefaultSchemaName(schemaName);
+//
+//                log.info("SCHEMA NAME!!!!! " + schemaName);
+//                statement.execute(String.format("SET search_path TO %s", schemaName));
+//
+//
+//                connection = dataSource.getConnection();
+//                connection.setSchema(schemaName);
+//                Database database2 = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
+//
+//                Liquibase liquibase = new Liquibase(LIQUIBASE_PATH, new ClassLoaderResourceAccessor(), database2);
+//
+//                liquibase.update(new Contexts(), new LabelExpression());
+//                database.setDefaultSchemaName(defaultSchemaName);
             }
+
+            runLiquibaseScript(dataSource.getConnection(), schemaName);
 
         } catch (Exception e) {
             log.error("Tenant subscription failed for {}.", tenantId, e);
             throw e;
+        }
+    }
+
+    private void runLiquibaseScript(Connection connection, String schemaName) {
+        try {
+            connection.setSchema(schemaName);
+            Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
+            Liquibase liquibase = new Liquibase(LIQUIBASE_PATH, new ClassLoaderResourceAccessor(), database);
+            liquibase.update(new Contexts(), new LabelExpression());
+            log.info("Initial script for schema: {} was performed successfully", schemaName);
+
+            connection.commit();
+            connection.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -74,7 +93,8 @@ public class TenantProvisioningService {
             try (Statement statement = connection.createStatement()) {
                 statement.execute(String.format("DROP SCHEMA IF EXISTS \"%s\" CASCADE", schemaName));
             }
-        } catch (SQLException | IllegalArgumentException e) {
+            log.info("SCHEMA with name: {} was deleted successfully", schemaName);
+        } catch (Exception e) {
             log.error("Tenant unsubscription failed for {}.", tenantId, e);
             throw e;
         }

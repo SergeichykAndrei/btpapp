@@ -1,4 +1,4 @@
-package com.andreis.pet.project.btpapp.model.enums;
+package com.andreis.pet.project.btpapp.model;
 
 import com.andreis.pet.project.btpapp.model.Employee;
 import lombok.EqualsAndHashCode;

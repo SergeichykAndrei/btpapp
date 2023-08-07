@@ -3,8 +3,7 @@ applications:
   # Application
   - name: reporting
     instances: 1
-    memory: 800M
-#    random-route: true
+    memory: 500M
     routes:
       - route: reporting-hilarious-llama-ox.cfapps.us10-001.hana.ondemand.com
     host: reporting-1.0.0.0.0
@@ -13,7 +12,7 @@ applications:
     env:
       JBP_CONFIG_COMPONENTS: "jres: ['com.sap.xs.java.buildpack.jre.SAPMachineJRE']"
       SPRING_PROFILES_ACTIVE: cloud
-#      SAP_JWT_TRUST_ACL: '[{"clientid" : "*", "identityzone" : "*"}]'
+      SAP_JWT_TRUST_ACL: '[{"clientid" : "*", "identityzone" : "*"}]'
       JBP_CONFIG_DEBUG: '{enabled: true}'
     services:
       - reporting_db
@@ -23,20 +22,14 @@ applications:
 
   # Application Router
   - name: approuter
-#    random-route: true
     routes:
-#      - route: approuter-surprised-pangolin-xv.cfapps.us10-001.hana.ondemand.com
       - route: approuter-xv.cfapps.us10-001.hana.ondemand.com
     path: approuter
-#    buildpacks:
-#      - nodejs_buildpack
-    memory: 500M
+    memory: 250M
     services:
       - reporting_xsuaa
     env:
       TENANT_HOST_PATTERN: '^(.*)-approuter-xv.cfapps.us10-001.hana.ondemand.com'
-#      TENANT_HOST_PATTERN: '^(.*)-approuter-surprised-pangolin-xv.cfapps.us10-001.hana.ondemand.com'
-#      TENANT_HOST_PATTERN: '^(.*)-cfapps.us10-001.hana.ondemand.com'
       destinations: >
         [
           {

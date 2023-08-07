@@ -5,7 +5,7 @@ import com.andreis.pet.project.btpapp.dto.ReportRequestDto;
 import com.andreis.pet.project.btpapp.filters.ReportFilter;
 import com.andreis.pet.project.btpapp.model.Employee;
 import com.andreis.pet.project.btpapp.model.Report;
-import com.andreis.pet.project.btpapp.model.enums.Project;
+import com.andreis.pet.project.btpapp.model.Project;
 import com.andreis.pet.project.btpapp.service.EmployeeService;
 import com.andreis.pet.project.btpapp.service.ProjectService;
 import com.andreis.pet.project.btpapp.service.ReportService;
@@ -39,8 +39,7 @@ public class ReportController {
         Employee employee = employeeService.getEmployee(reportRequestDto.getEmployeeId());
         Project project = projectService.getProject(reportRequestDto.getProjectId());
         Report report = reportService.save(project, employee, reportRequestDto.getDescription());
-        return new ReportDto(report.getId(), report.getDescription(),
-                report.getCreatedAt(), report.getEmployee().getId(), report.getProject().getId());
+        return convertToReportDto(report);
     }
 
     @GetMapping
@@ -50,9 +49,12 @@ public class ReportController {
                                @RequestParam(value = "date_to", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTo) {
         ArrayList<ReportDto> reports = new ArrayList<>();
         reportService.getAll(new ReportFilter(employeeId, projectId, dateFrom, dateTo))
-                .forEach(report ->
-                        reports.add(new ReportDto(report.getId(), report.getDescription(), report.getCreatedAt(),
-                                report.getEmployee().getId(), report.getProject().getId())));
+                .forEach(report -> reports.add(convertToReportDto(report)));
         return reports;
+    }
+
+    private static ReportDto convertToReportDto(Report report) {
+        return new ReportDto(report.getId(), report.getDescription(), report.getCreatedAt(),
+                report.getEmployee().getId(), report.getProject().getId());
     }
 }

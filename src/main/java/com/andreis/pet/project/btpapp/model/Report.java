@@ -1,6 +1,5 @@
 package com.andreis.pet.project.btpapp.model;
 
-import com.andreis.pet.project.btpapp.model.enums.Project;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

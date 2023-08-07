@@ -1,6 +1,5 @@
 package com.andreis.pet.project.btpapp.model;
 
-import com.andreis.pet.project.btpapp.model.enums.Project;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,7 +36,4 @@ public class Employee {
 
     @Column(name = "name", length = 50)
     private String name;
-
-//    @Enumerated(EnumType.STRING)
-//    private Role role;
 }

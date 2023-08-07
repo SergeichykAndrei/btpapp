@@ -45,5 +45,6 @@ To deploy the app in the Cloud Foundry environment, follow these steps:
 - [Deep Dive: Tenant-Aware Persistency with SAP S/4HANA Cloud SDK](https://blogs.sap.com/2017/12/20/deep-dive-6-with-sap-s4hana-cloud-sdk-extend-your-cloud-foundry-application-with-tenant-aware-persistency/)
 - [Tutorial: Multi-Tenancy Setup with XSUAA in SAP Business Technology Platform](https://developers.sap.com/tutorials/cp-cf-security-xsuaa-multi-tenant.html)
 - [Debugging Java Web Applications on SAP Business Technology Platform](https://help.sap.com/docs/btp/sap-business-technology-platform/debug-java-web-application-running-on-sapmachine?locale=en-US)
+- https://blogs.sap.com/2019/07/24/remote-debugging-on-cloud-foundry/
 
 Feel free to modify the text to suit your specific project and use case.

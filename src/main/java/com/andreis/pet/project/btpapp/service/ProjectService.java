@@ -1,6 +1,6 @@
 package com.andreis.pet.project.btpapp.service;
 
-import com.andreis.pet.project.btpapp.model.enums.Project;
+import com.andreis.pet.project.btpapp.model.Project;
 import com.andreis.pet.project.btpapp.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.ObjectNotFoundException;
