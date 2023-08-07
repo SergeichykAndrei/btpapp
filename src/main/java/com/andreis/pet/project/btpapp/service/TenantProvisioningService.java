@@ -65,7 +65,7 @@ public class TenantProvisioningService {
             runLiquibaseScript(dataSource.getConnection(), schemaName);
 
         } catch (Exception e) {
-            log.error("Tenant subscription failed for {}.", tenantId, e);
+            log.error("TenantProvisioningService: Tenant subscription failed for {}.", tenantId, e);
             throw e;
         }
     }

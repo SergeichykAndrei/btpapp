@@ -38,12 +38,14 @@ public class SchemaPerTenantConnectionProvider implements MultiTenantConnectionP
         final Connection connection = getAnyConnection();
         try {
             if (Objects.equals(tenantIdentifier, defaultTenant)) {
+                log.info("SchemaPerTenantConnectionProvider: getConnection!!!!: " + defaultTenant);
                 connection.setSchema(defaultTenant);
             } else {
+                log.info("SchemaPerTenantConnectionProvider: getConnection!!!!: " + tenantIdentifier);
                 connection.setSchema(TenantUtil.createSchemaName(tenantIdentifier));
             }
         } catch (SQLException e) {
-            throw new HibernateException("Could not alter JDBC connection to specified schema [" + tenantIdentifier + "]", e);
+            throw new HibernateException("SchemaPerTenantConnectionProvider: Could not alter JDBC connection to specified schema [" + tenantIdentifier + "]", e);
         }
         return connection;
     }
@@ -51,10 +53,10 @@ public class SchemaPerTenantConnectionProvider implements MultiTenantConnectionP
     @Override
     public void releaseConnection(String tenantIdentifier, Connection connection) throws SQLException {
         try {
-            log.info("releaseConnection: " + defaultTenant);
+            log.info("SchemaPerTenantConnectionProvider: releaseConnection: " + defaultTenant);
             connection.setSchema(defaultTenant);
         } catch (SQLException e) {
-            throw new HibernateException("Could not alter JDBC connection to specified schema [" + tenantIdentifier + "]", e);
+            throw new HibernateException("SchemaPerTenantConnectionProvider: Could not alter JDBC connection to specified schema [" + tenantIdentifier + "]", e);
         }
         connection.close();
     }
