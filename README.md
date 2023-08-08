@@ -100,6 +100,11 @@ See https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-services.html#ssh-tun
 - https://blogs.sap.com/2019/07/24/remote-debugging-on-cloud-foundry/
 - [SSH Services in Cloud Foundry](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-services.html)
 
+### MTA:
+- [Deploying a Multi-Target Application on SAP Business Technology Platform](https://developers.sap.com/tutorials/btp-cf-deploy-mta.html)
+- [Creating a Multi-Target Application Descriptor (MTAD)](https://help.sap.com/docs/SAP_HANA_PLATFORM/4505d0bdaf4948449b7f7379d24d0f0d/4050fee4c469498ebc31b10f2ae15ff2.html)
+- [Multi-Target Applications in the Cloud Foundry Environment](https://help.sap.com/docs/btp/sap-business-technology-platform/multitarget-applications-in-cloud-foundry-environment)
+
 ### Helpful Resources
 - [Secure Your Multi-Target Application on BTP](https://github.com/SAP-archive/teched2019-cloud-cf-product-list/blob/teched2019/docs/09_secure/README.md)
 - [Sample Application - teched2019-cloud-cf-product-list](https://github.com/SAP-archive/teched2019-cloud-cf-product-list/tree/teched2019)
@@ -107,7 +112,7 @@ See https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-services.html#ssh-tun
 - [Deep Dive: Tenant-Aware Persistency with SAP S/4HANA Cloud SDK](https://blogs.sap.com/2017/12/20/deep-dive-6-with-sap-s4hana-cloud-sdk-extend-your-cloud-foundry-application-with-tenant-aware-persistency/)
 - [Tutorial: Multi-Tenancy Setup with XSUAA in SAP Business Technology Platform](https://developers.sap.com/tutorials/cp-cf-security-xsuaa-multi-tenant.html)
 - [Debugging Java Web Applications on SAP Business Technology Platform](https://help.sap.com/docs/btp/sap-business-technology-platform/debug-java-web-application-running-on-sapmachine?locale=en-US)
-- https://blogs.sap.com/2019/07/24/remote-debugging-on-cloud-foundry/
+- [Remote Debugging on Cloud Foundry](https://blogs.sap.com/2019/07/24/remote-debugging-on-cloud-foundry/)
 
 
 Feel free to modify the text to suit your specific project and use case.

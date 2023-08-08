@@ -1,0 +1,51 @@
+_schema-version: '3.1'
+version: 0.0.1
+ID: reporting
+modules:
+  - name: reporting
+    type: java
+    path: target/btpapp-0.0.1-SNAPSHOT.jar
+    parameters:
+      memory: 500M
+      keep-existing-routes: true
+    routes:
+      - route: "reporting-hilarious-llama-ox.cfapps.us10-001.hana.ondemand.com"
+    properties:
+      JBP_CONFIG_COMPONENTS: "jres: ['com.sap.xs.java.buildpack.jre.SAPMachineJRE']"
+      SPRING_PROFILES_ACTIVE: cloud
+      SAP_JWT_TRUST_ACL: '[{"clientid" : "*", "identityzone" : "*"}]'
+      JBP_CONFIG_DEBUG: '{enabled: true}'
+    requires:
+      - name: reporting_db
+      - name: reporting_logging_service
+      - name: reporting_xsuaa
+      - name: reporting_registry
+  - name: approuter
+    type: nodejs
+    path: approuter
+    parameters:
+      memory: 250M
+      keep-existing-routes: true
+    routes:
+      - route: "approuter-xv.cfapps.us10-001.hana.ondemand.com"
+    requires:
+      - name: reporting_xsuaa
+    properties:
+      TENANT_HOST_PATTERN: '^(.*)-approuter-xv.cfapps.us10-001.hana.ondemand.com'
+      destinations: >
+        [
+          {
+            "name": "reporting",
+            "url": "https://reporting-hilarious-llama-ox.cfapps.us10-001.hana.ondemand.com",
+            "forwardAuthToken": true
+          }
+        ]
+resources:
+  - name: reporting_db
+    type: org.cloudfoundry.existing-service
+  - name: reporting_logging_service
+    type: org.cloudfoundry.existing-service
+  - name: reporting_xsuaa
+    type: org.cloudfoundry.existing-service
+  - name: reporting_registry
+    type: org.cloudfoundry.existing-service
