@@ -24,6 +24,24 @@ modules:
       - name: reporting_logging_service
       - name: reporting_xsuaa
       - name: reporting_registry
+      - name: reporting_autoscaler
+        parameters:
+          config:
+            instance_min_count: 1
+            instance_max_count: 2
+            scaling_rules:
+              - metric_type: cpu
+                threshold: 6
+                operator: '>'
+                adjustment: '+1'
+                breach_duration_secs: 60
+                cool_down_secs: 60
+              - metric_type: cpu
+                threshold: 6
+                operator: '<='
+                adjustment: '-1'
+                breach_duration_secs: 60
+                cool_down_secs: 60
   - name: approuter
     type: nodejs
     path: approuter
@@ -108,3 +126,8 @@ resources:
           onSubscription: ~{reporting/reporting_url}/api/v1/callback/tenant/{tenantId}
           onSubscriptionAsync: false
           onUnSubscriptionAsync: false
+  - name: reporting_autoscaler
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: autoscaler
+      service-plan: standard
