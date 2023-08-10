@@ -101,6 +101,14 @@ See https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-services.html#ssh-tun
 - [SSH Services in Cloud Foundry](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-services.html)
 
 ### MTA:
+If you already had previously deployed services and applications, clean them up before starting the MTA deployment in the following order:
+- delete subaccounts
+- delete log-service
+- delete regestry-service
+- delete approuter and reporting applications
+- delete xsuaa service
+
+## Documentation:
 - [Deploying a Multi-Target Application on SAP Business Technology Platform](https://developers.sap.com/tutorials/btp-cf-deploy-mta.html)
 - [Creating a Multi-Target Application Descriptor (MTAD)](https://help.sap.com/docs/SAP_HANA_PLATFORM/4505d0bdaf4948449b7f7379d24d0f0d/4050fee4c469498ebc31b10f2ae15ff2.html)
 - [Multi-Target Applications in the Cloud Foundry Environment](https://help.sap.com/docs/btp/sap-business-technology-platform/multitarget-applications-in-cloud-foundry-environment)

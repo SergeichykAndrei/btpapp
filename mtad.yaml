@@ -8,8 +8,12 @@ modules:
     parameters:
       memory: 500M
       keep-existing-routes: true
-    routes:
-      - route: "reporting-hilarious-llama-ox.cfapps.us10-001.hana.ondemand.com"
+    provides:
+      - name: reporting
+        properties:
+          reporting_url: '${default-url}'
+#    routes:
+#      - route: "reporting-hilarious-llama-ox.cfapps.us10-001.hana.ondemand.com"
     properties:
       JBP_CONFIG_COMPONENTS: "jres: ['com.sap.xs.java.buildpack.jre.SAPMachineJRE']"
       SPRING_PROFILES_ACTIVE: cloud
@@ -26,26 +30,81 @@ modules:
     parameters:
       memory: 250M
       keep-existing-routes: true
-    routes:
-      - route: "approuter-xv.cfapps.us10-001.hana.ondemand.com"
+    provides:
+      - name: approuter-api
+        properties:
+          approuter_url: ${default-url}
+          application: ${app-name}
+#    routes:
+#      - route: "approuter-xv.cfapps.us10-001.hana.ondemand.com"
     requires:
+      - name: reporting
+        group: destinations
+        properties:
+          name: reporting
+          url: ~{reporting_url}
+          forwardAuthToken: true
       - name: reporting_xsuaa
     properties:
-      TENANT_HOST_PATTERN: '^(.*)-approuter-xv.cfapps.us10-001.hana.ondemand.com'
-      destinations: >
-        [
-          {
-            "name": "reporting",
-            "url": "https://reporting-hilarious-llama-ox.cfapps.us10-001.hana.ondemand.com",
-            "forwardAuthToken": true
-          }
-        ]
+      TENANT_HOST_PATTERN: '^(.*)-approuter-xv.${default-domain}'
 resources:
   - name: reporting_db
     type: org.cloudfoundry.existing-service
   - name: reporting_logging_service
-    type: org.cloudfoundry.existing-service
+    parameters:
+      service-plan: "lite"
+      service: application-logs
+    requires:
+      - name: reporting
+#      active: false # defalt value is true, if unchanged with an extension descriptor, the service will not get created
+#      optional: false  # default value
   - name: reporting_xsuaa
-    type: org.cloudfoundry.existing-service
+    type: org.cloudfoundry.managed-service
+    requires:
+      - name: approuter-api
+    properties:
+      XSAPPNAME: ${xsuaa-app}
+    parameters:
+      service-plan: application
+      service: xsuaa
+      shared: true
+      xsuaa-app: ${space}-~{approuter-api/application}
+      config:
+        xsappname: ${xsuaa-app}
+        tenant-mode: shared
+        description: Security profile of called application
+        scopes:
+          - name: "$XSAPPNAME.Callback"
+            description: With this scope set, the callbacks for tenant onboarding, offboarding and getDependencies can be called.
+            grant-as-authority-to-apps:
+              - "$XSAPPNAME(application,sap-provisioning,tenant-onboarding)"
+          - name: "$XSAPPNAME.Display"
+            description: Display content
+          - name: "$XSAPPNAME.read"
+            description: With this scope, USER can read products.
+        role-templates:
+          - name: Viewer
+            description: View content
+            scope-references:
+              - "$XSAPPNAME.Display"
+        oauth2-configuration:
+          redirect-uris:
+            - "http*://*.${default-domain}/**"
   - name: reporting_registry
-    type: org.cloudfoundry.existing-service
+    type: org.cloudfoundry.managed-service
+    requires:
+      - name: reporting_xsuaa
+      - name: reporting
+    parameters:
+      service: saas-registry
+      service-plan: application
+      config:
+        xsappname: ~{reporting_xsuaa/XSAPPNAME}
+        appName: reporting
+        displayName: Reporting MTA
+        description: 'Reporting MTA sample application'
+        category: 'Custom SaaS Applications'
+        appUrls:
+          onSubscription: ~{reporting/reporting_url}/api/v1/callback/tenant/{tenantId}
+          onSubscriptionAsync: false
+          onUnSubscriptionAsync: false
