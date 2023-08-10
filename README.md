@@ -112,6 +112,8 @@ If you already had previously deployed services and applications, clean them up 
 - [Deploying a Multi-Target Application on SAP Business Technology Platform](https://developers.sap.com/tutorials/btp-cf-deploy-mta.html)
 - [Creating a Multi-Target Application Descriptor (MTAD)](https://help.sap.com/docs/SAP_HANA_PLATFORM/4505d0bdaf4948449b7f7379d24d0f0d/4050fee4c469498ebc31b10f2ae15ff2.html)
 - [Multi-Target Applications in the Cloud Foundry Environment](https://help.sap.com/docs/btp/sap-business-technology-platform/multitarget-applications-in-cloud-foundry-environment)
+- https://github.com/SAP-samples/cloud-cap-multitenancy/blob/main/mta.yaml
+- https://github.com/SAP-samples/btp-build-resilient-apps/blob/main/mta.yaml
 
 ### Helpful Resources
 - [Secure Your Multi-Target Application on BTP](https://github.com/SAP-archive/teched2019-cloud-cf-product-list/blob/teched2019/docs/09_secure/README.md)
