@@ -1,29 +1,27 @@
 _schema-version: '3.1'
 version: 0.0.1
-ID: reporting
+ID: btp-java-multi-tenant-application
 modules:
-  - name: reporting
+  - name: reporting_app
     type: java
     path: target/btpapp-0.0.1-SNAPSHOT.jar
     parameters:
       memory: 500M
       keep-existing-routes: true
     provides:
-      - name: reporting
+      - name: reporting_app
         properties:
           reporting_url: '${default-url}'
-#    routes:
-#      - route: "reporting-hilarious-llama-ox.cfapps.us10-001.hana.ondemand.com"
     properties:
       JBP_CONFIG_COMPONENTS: "jres: ['com.sap.xs.java.buildpack.jre.SAPMachineJRE']"
       SPRING_PROFILES_ACTIVE: cloud
       SAP_JWT_TRUST_ACL: '[{"clientid" : "*", "identityzone" : "*"}]'
       JBP_CONFIG_DEBUG: '{enabled: true}'
     requires:
-      - name: reporting_db
-      - name: reporting_logging_service
+      - name: reporting_postgresql_db
+      - name: reporting_logs
       - name: reporting_xsuaa
-      - name: reporting_registry
+      - name: reporting-saas-registry
       - name: reporting_autoscaler
         parameters:
           config:
@@ -46,7 +44,7 @@ modules:
     type: nodejs
     path: approuter
     parameters:
-      memory: 250M
+      memory: 256M
       keep-existing-routes: true
     provides:
       - name: approuter-api
@@ -56,26 +54,20 @@ modules:
 #    routes:
 #      - route: "approuter-xv.cfapps.us10-001.hana.ondemand.com"
     requires:
-      - name: reporting
+      - name: reporting_app
         group: destinations
         properties:
-          name: reporting
+          name: reporting_app
           url: ~{reporting_url}
           forwardAuthToken: true
       - name: reporting_xsuaa
     properties:
       TENANT_HOST_PATTERN: '^(.*)-approuter-xv.${default-domain}'
 resources:
-  - name: reporting_db
+  - name: reporting_postgresql_db
     type: org.cloudfoundry.existing-service
-  - name: reporting_logging_service
-    parameters:
-      service-plan: "lite"
-      service: application-logs
-    requires:
-      - name: reporting
-#      active: false # defalt value is true, if unchanged with an extension descriptor, the service will not get created
-#      optional: false  # default value
+  - name: reporting_logs
+    type: org.cloudfoundry.existing-service
   - name: reporting_xsuaa
     type: org.cloudfoundry.managed-service
     requires:
@@ -108,22 +100,22 @@ resources:
         oauth2-configuration:
           redirect-uris:
             - "http*://*.${default-domain}/**"
-  - name: reporting_registry
+  - name: reporting-saas-registry
     type: org.cloudfoundry.managed-service
     requires:
       - name: reporting_xsuaa
-      - name: reporting
+      - name: reporting_app
     parameters:
       service: saas-registry
       service-plan: application
       config:
         xsappname: ~{reporting_xsuaa/XSAPPNAME}
-        appName: reporting
-        displayName: Reporting MTA
-        description: 'Reporting MTA sample application'
+        appName: reporting_app
+        displayName: Reporting application
+        description: 'Reporting sample application'
         category: 'Custom SaaS Applications'
         appUrls:
-          onSubscription: ~{reporting/reporting_url}/api/v1/callback/tenant/{tenantId}
+          onSubscription: ~{reporting_app/reporting_url}/api/v1/callback/tenant/{tenantId}
           onSubscriptionAsync: false
           onUnSubscriptionAsync: false
   - name: reporting_autoscaler

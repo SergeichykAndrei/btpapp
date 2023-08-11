@@ -103,17 +103,28 @@ See https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-services.html#ssh-tun
 ### MTA:
 If you already had previously deployed services and applications, clean them up before starting the MTA deployment in the following order:
 - delete subaccounts
-- delete log-service
 - delete regestry-service
 - delete approuter and reporting applications
 - delete xsuaa service
 
-## Documentation:
+## Commands to run MTA application:
+- Install the MultiApps CF CLI Plugin:
+`cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org`
+`cf install-plugin multiapps`
+- Deploy the MTA
+`cd  <path to my_first_mta>`
+`cf deploy ./`
+- To check the application, execute
+`cf apps`
+- To check the service, execute
+`cf services`
+
+## MTA Documentation:
 - [Deploying a Multi-Target Application on SAP Business Technology Platform](https://developers.sap.com/tutorials/btp-cf-deploy-mta.html)
 - [Creating a Multi-Target Application Descriptor (MTAD)](https://help.sap.com/docs/SAP_HANA_PLATFORM/4505d0bdaf4948449b7f7379d24d0f0d/4050fee4c469498ebc31b10f2ae15ff2.html)
 - [Multi-Target Applications in the Cloud Foundry Environment](https://help.sap.com/docs/btp/sap-business-technology-platform/multitarget-applications-in-cloud-foundry-environment)
-- https://github.com/SAP-samples/cloud-cap-multitenancy/blob/main/mta.yaml
-- https://github.com/SAP-samples/btp-build-resilient-apps/blob/main/mta.yaml
+- [Example of mta file](https://github.com/SAP-samples/cloud-cap-multitenancy/blob/main/mta.yaml)
+- [Example of mta file](https://github.com/SAP-samples/btp-build-resilient-apps/blob/main/mta.yaml)
 
 ### Helpful Resources
 - [Secure Your Multi-Target Application on BTP](https://github.com/SAP-archive/teched2019-cloud-cf-product-list/blob/teched2019/docs/09_secure/README.md)

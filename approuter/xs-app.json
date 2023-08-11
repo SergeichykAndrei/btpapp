@@ -4,7 +4,7 @@
     {
       "source": "/",
       "target": "/",
-      "destination": "reporting",
+      "destination": "reporting_app",
       "authenticationType": "xsuaa"
     }
   ]
