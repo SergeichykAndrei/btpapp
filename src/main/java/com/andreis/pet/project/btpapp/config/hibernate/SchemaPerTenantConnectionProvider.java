@@ -53,7 +53,7 @@ public class SchemaPerTenantConnectionProvider implements MultiTenantConnectionP
     @Override
     public void releaseConnection(String tenantIdentifier, Connection connection) throws SQLException {
         try {
-            log.info("SchemaPerTenantConnectionProvider: releaseConnection: " + defaultTenant);
+            log.info("SchemaPerTenantConnectionProvider: releaseConnection: " + tenantIdentifier);
             connection.setSchema(defaultTenant);
         } catch (SQLException e) {
             throw new HibernateException("SchemaPerTenantConnectionProvider: Could not alter JDBC connection to specified schema [" + tenantIdentifier + "]", e);

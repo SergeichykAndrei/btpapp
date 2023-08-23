@@ -26,7 +26,9 @@ public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver
                 Map<String, Object> attributes = authToken.getTokenAttributes();
                 if (Objects.nonNull(attributes)) {
                     String tenant = (String) attributes.get("zid");
-                    return isValidTenant(tenant) ? tenant : defaultTenant;
+                    String resolvedTenant = isValidTenant(tenant) ? tenant : defaultTenant;
+                    log.info("TenantIdentifierResolver: resolvedTenant " + resolvedTenant);
+                    return resolvedTenant;
                 }
             }
 //            return TenantAccessor.getCurrentTenant().getTenantId();
