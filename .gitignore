@@ -32,3 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 /reporting.mtar
+
+# Ignore Sapient files
+.sapient
